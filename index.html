@@ -12,6 +12,7 @@ p{margin:0;font-size:14px;color:#c9b27a}a{color:#fff;font-size:15px;border:1px s
 <p>메뉴 ⋮ → 홈 화면에 추가</p><a href="https://claude.ai/artifact/ALB4KL2qADPRkDq8B8QNoU">신문 열기</a></main>
 <script>
 var st=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
+if(st)location.replace("paper/");
 
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});
 </script></body></html>
