@@ -91,6 +91,29 @@ table.mkt th{background:var(--a);color:#fff;font-weight:500}
 .foot{font-family:var(--sans);font-size:12px;color:var(--muted);text-align:center;padding-top:18px}
 @media (max-width:480px){.card{grid-template-columns:1fr}.card .d{justify-self:start}}
 @media (prefers-reduced-motion:no-preference){.card{transition:transform .15s}.card:hover{transform:translateY(-1px)}}
+
+b.key{font-weight:700;color:#A6191B;background:#FFEFA8;padding:0 3px;border-radius:2px}
+.tag.hot{background:#D3261E}
+.paper .box,.paper .weather,.paper .sec{scroll-margin-top:100px}
+.jump{position:sticky;top:43px;z-index:4;display:flex;gap:6px;overflow-x:auto;padding:8px 2px;background:var(--paper);border-bottom:1px solid var(--rule);scrollbar-width:none}
+.jump::-webkit-scrollbar{display:none}
+.jump button{flex:none;font-family:var(--sans);font-size:13px;font-weight:500;padding:5px 12px;border:1px solid var(--a);border-radius:16px;background:#fff;color:var(--a);cursor:pointer}
+.jump button:active{background:var(--a);color:#fff}
+#totop{position:fixed;right:14px;bottom:20px;z-index:9;width:44px;height:44px;border-radius:50%;border:0;background:#14284B;color:#fff;font-size:20px;line-height:1;display:none;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer}
+#totop.on{display:block}
+.weather.wxs{display:block;padding:0;border:0;background:none}
+.wxrow{display:flex;gap:8px}
+.wx{flex:1 1 0;display:block;padding:10px 12px;background:#fff;border:1px solid var(--rule);font-family:var(--sans)}
+.wx.main{border:2px solid var(--a);background:#FFF9E6}
+.wx.ic{display:grid;grid-template-columns:44px 1fr;column-gap:10px;align-items:center}
+.wx.ic svg{grid-row:1/4;width:44px;height:44px}
+.wx .wl{font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--a)}
+.wx .wt{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
+.wx .wd{font-size:13px;color:var(--muted)}
+.wtip{list-style:none;margin:8px 0 0;padding:10px 14px;background:#fff;border-left:5px solid #D3261E;font-family:var(--sans);font-size:14px}
+.wtip li{margin:3px 0}
+.wtip li::before{content:"\2713\00a0";color:#D3261E;font-weight:700}
+@media(max-width:420px){.wxrow{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -191,7 +214,7 @@ table.mkt th{background:var(--a);color:#fff;font-weight:500}
 <li>유류세 인하 2027년 1월 말까지 연장</li>
 </ul></div>
 <div class="nums"><div>코스피<b>5,006.03 (+6.32%)</b></div><div>원·달러<b>1,342.4원 (-3.5원)</b></div><div>지하철 파업<b>D-1 (25일 첫차)</b></div></div>
-<div class="weather"><span><b>서울 내일(25일)</b> 중부지방 대부분 아침 -5도 이하 예상, 서울 세부 기온 확인되지 않아 싣지 않음</span></div>
+<div class="weather wxs"><div class="wxrow"><div class="wx main"><span class="wl">내일 25일</span><span class="wt">아침 -5° 이하</span><span class="wd">중부 대부분 · 서울 세부값 미확인</span></div></div><ul class="wtip"><li><b class="key">방한</b>: 아침 영하 5도 이하 예상, 장갑·목도리·두꺼운 겉옷을 챙기세요</li><li>출근길 지하철 파업 변수(25일 첫차)가 있어 일찍 나서세요</li></ul></div>
 <div class="box"><h3>Today's Results 오늘 결과</h3><ul>
 <li>국무회의: 법률안 1건, 대통령령안 40건, 일반안건 4건 등 45건 의결</li>
 <li>코스피 5,006.03, 코스닥 665.88(+4.79%). 코스피 개장 6분 만에 매수 사이드카</li>
@@ -246,6 +269,7 @@ table.mkt th{background:var(--a);color:#fff;font-weight:500}
 <div class="foot">THE SIGNAL BELL · Evening Edition · 샘플호 (2026-11-24 자료를 사후 수집해 작성)</div>
 </div></article>
 </div>
+<button id="totop" type="button" aria-label="맨 위로">↑</button>
 <script>
 (function(){
   function route(){
@@ -275,6 +299,45 @@ table.mkt th{background:var(--a);color:#fff;font-weight:500}
     nav.innerHTML=(older?'<a href="#'+older+'">← 이전 호</a>':'<span></span>')+(newer?'<a href="#'+newer+'">다음 호 →</a>':'<span></span>');
     ed.appendChild(nav);
   });
+
+  var ICONS={
+    sun:'<circle cx="22" cy="22" r="8" fill="#F2A900"/><g stroke="#F2A900" stroke-width="3" stroke-linecap="round"><path d="M22 4v5M22 35v5M4 22h5M35 22h5M9 9l3.5 3.5M31.5 31.5L35 35M35 9l-3.5 3.5M12.5 31.5L9 35"/></g>',
+    cloud:'<path d="M12 33a8 8 0 0 1 1-16 10 10 0 0 1 19 3 6.5 6.5 0 0 1-1 13z" fill="#8A97A8"/>',
+    partly:'<circle cx="16" cy="15" r="6" fill="#F2A900"/><g stroke="#F2A900" stroke-width="2.5" stroke-linecap="round"><path d="M16 3v3M4 15h3M7.5 6.5L9.5 8.5M24.5 6.5L22.5 8.5"/></g><path d="M14 36a7 7 0 0 1 1-14 9 9 0 0 1 17 3 6 6 0 0 1-1 11z" fill="#8A97A8"/>',
+    rain:'<path d="M12 27a7 7 0 0 1 1-14 9 9 0 0 1 17 3 6 6 0 0 1-1 11z" fill="#8A97A8"/><g stroke="#2F7DD1" stroke-width="3" stroke-linecap="round"><path d="M14 33l-2 6M23 33l-2 6M32 33l-2 6"/></g>',
+    snow:'<path d="M12 27a7 7 0 0 1 1-14 9 9 0 0 1 17 3 6 6 0 0 1-1 11z" fill="#8A97A8"/><g fill="#6FB1E6"><circle cx="14" cy="35" r="2.5"/><circle cx="23" cy="38" r="2.5"/><circle cx="32" cy="35" r="2.5"/></g>',
+    dust:'<g stroke="#B08968" stroke-width="3" stroke-linecap="round"><path d="M6 14h22M12 22h26M6 30h22M14 38h20"/></g>'
+  };
+  [].forEach.call(document.querySelectorAll('.wx[data-wx]'),function(w){
+    var s=ICONS[w.getAttribute('data-wx')];
+    if(!s)return;
+    w.classList.add('ic');w.insertAdjacentHTML('afterbegin','<svg viewBox="0 0 44 44" aria-hidden="true">'+s+'</svg>');
+  });
+  var LAB=[[/Politic/,'정치'],[/Econom/,'경제'],[/Society/,'사회'],[/Culture/,'문화'],[/Technolog/,'기술'],[/Leisure/,'레저'],[/Capital/,'증시'],[/AI/,'AI'],[/Higher/,'고등교육'],[/Deals/,'할인·티켓']];
+  [].forEach.call(document.querySelectorAll('.edition'),function(ed){
+    var paper=ed.querySelector('.paper'),mast=ed.querySelector('.mast');
+    if(!paper||!mast)return;
+    var items=[],box=paper.querySelector('.box'),wx=paper.querySelector('.weather');
+    if(box)items.push(['브리핑',box]);
+    if(wx)items.push(['날씨',wx]);
+    [].forEach.call(paper.querySelectorAll('.sec'),function(s){
+      var h=s.querySelector('h3'),t=h?h.textContent:'',l=t.split(' ')[0];
+      LAB.some(function(p){if(p[0].test(t)){l=p[1];return true;}});
+      items.push([l,s]);
+    });
+    var nav=document.createElement('div');
+    nav.className='jump';
+    items.forEach(function(it){
+      var b=document.createElement('button');
+      b.type='button';b.textContent=it[0];
+      b.addEventListener('click',function(){it[1].scrollIntoView({behavior:'smooth',block:'start'});});
+      nav.appendChild(b);
+    });
+    mast.insertAdjacentElement('afterend',nav);
+  });
+  var tt=document.getElementById('totop');
+  window.addEventListener('scroll',function(){tt.classList.toggle('on',document.body.classList.contains('reading')&&window.scrollY>500);},{passive:true});
+  tt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
   var filter='all';
   function render(){
     [].forEach.call(cardsEl.querySelectorAll('.dg'),function(n){n.remove();});
