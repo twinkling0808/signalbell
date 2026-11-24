@@ -1,8 +1,8 @@
 {
  "name": "THE SIGNAL BELL",
  "short_name": "시그널벨",
- "start_url": "/signalbell/b/",
- "scope": "/signalbell/b/",
+ "start_url": "/signalbell/go/",
+ "scope": "/signalbell/",
  "display": "standalone",
  "background_color": "#6B1F2E",
  "theme_color": "#6B1F2E",
@@ -20,5 +20,6 @@
    "type": "image/png",
    "purpose": "any maskable"
   }
- ]
+ ],
+ "id": "/signalbell/b"
 }
